@@ -1,22 +1,25 @@
 @extends('admin.layout.base')
 
-@section('title', 'Users History' )
+@section('title', 'Histórico Passageiros' )
 
 @section('content')
 
-<div>
+<div class="content-area py-1">
     <div class="container-fluid">
-            <div class="card">                
-                <div class="card-header card-header-primary">
-                <h4 class="card-title">Passenger History</h4>
-                <div class="box-block clearfix">
-                    <h5 class="float-xs-left">@lang('admin.include.user_ride_histroy')</h5>
-                    <div class="float-xs-right">
-                    </div>
-                </div>
-                </div>
-                <div class="card-body">
-                  <div class="table-responsive">
+        <div class="box box-block bg-white">
+            <h3>Histórico Passageiros</h3>
+
+            <div class="row">
+
+                <div class="row row-md mb-2" style="padding: 15px;">
+                    <div class="col-md-12">
+                        <div class="box bg-white">
+                            <div class="box-block clearfix">
+                                <h5 class="float-xs-left">@lang('admin.include.user_ride_histroy')</h5>
+                                <div class="float-xs-right">
+                                </div>
+                            </div>
+
                             @if(count($Users) != 0)
                             <table class="table table-striped table-bordered dataTable" id="table-4">
                                 <thead>
@@ -90,6 +93,9 @@
                 </div>
 
             </div>
+
+        </div>
     </div>
+</div>
 
 @endsection

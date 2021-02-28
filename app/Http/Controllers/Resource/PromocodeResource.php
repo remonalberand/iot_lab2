@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Resource;
 
+use App\Fleet;
 use App\Promocode;
 use Illuminate\Http\Request;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -43,7 +44,8 @@ class PromocodeResource extends Controller
      */
     public function create()
     {
-        return view('admin.promocode.create');
+        $fleets = Fleet::all();
+        return view('admin.promocode.create', compact('fleets'));
     }
 
     /**
@@ -56,6 +58,7 @@ class PromocodeResource extends Controller
     {
 
         $this->validate($request, [
+            'fleet_id'   => 'required',
             'promo_code' => 'required|max:100|unique:promocodes',
             'percentage' => 'required|numeric',
             'max_amount' => 'required|numeric',
@@ -97,8 +100,10 @@ class PromocodeResource extends Controller
     public function edit($id)
     {
         try {
+
+            $fleets = Fleet::all();
             $promocode = Promocode::findOrFail($id);
-            return view('admin.promocode.edit',compact('promocode'));
+            return view('admin.promocode.edit',compact('promocode','fleets'));
         } catch (ModelNotFoundException $e) {
             return $e;
         }
@@ -114,6 +119,7 @@ class PromocodeResource extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
+            'fleet_id'   => 'required',
             'promo_code' => 'required|max:100',
             'percentage' => 'required|numeric',
             'max_amount' => 'required|numeric',
@@ -123,6 +129,8 @@ class PromocodeResource extends Controller
         try {
 
            $promo = Promocode::findOrFail($id);
+           
+            $promo->fleet_id = $request->fleet_id;
             $promo->promo_code = $request->promo_code;
             $promo->percentage = $request->percentage;
             $promo->max_amount = $request->max_amount;

@@ -57,6 +57,7 @@ class RegisterController extends Controller
         return Validator::make($data, [
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
+            'cpf' => 'required|max:255',
             'phone_number' => 'required',
             'country_code' => 'required',
             'email' => 'required|email|max:255|unique:providers',
@@ -101,10 +102,12 @@ class RegisterController extends Controller
             $gender=$data['gender'];
         else
             $gender='MALE';
+            $cpf = ( $data['cpf'] ? $data['cpf'] : "" );
             
         $Provider = Provider::create([
             'first_name' => $data['first_name'],
             'last_name' => $data['last_name'],
+            'cpf' => $data['cpf'],
             'email' => $data['email'],
             'gender' => $gender,
             'country_code' => $data['country_code'],

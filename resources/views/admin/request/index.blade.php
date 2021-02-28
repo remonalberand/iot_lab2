@@ -1,31 +1,26 @@
-
-<!-- // TODO ALLAN - Machine and voucher changes -->
+<!--//TODO ALLAN - Alterações débito na máquina e voucher-->
 @extends('admin.layout.base')
 
-@section('title', 'Request History')
+@section('title', 'Histórico de Viagens ')
 
 @section('content')
 
-
+<div class="content-area py-1">
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-header card-header-primary">
+        <div class="box box-block bg-white">
             @if(Setting::get('demo_mode', 0) == 1)
         <div class="col-md-12" style="height:50px;color:red;">
                     ** Demo Mode : @lang('admin.demomode')
                 </div>
                 @endif
-            <h5 class="card-title">Request History</h5>
-        </div>
-        <div class="card-body">
+            <h5 class="mb-1">Histórico de Viagens</h5>
             @if(count($requests) != 0)
-          <div class="table-responsive">
-            <table class="table">
+            <table class="table table-striped table-bordered dataTable" id="table-4">
                 <thead>
                     <tr>
                         <th>#</th>
                         <th>@lang('admin.request.Booking_ID')</th>
-                        {{-- <th>@lang('admin.request.os_id')</th> --}}
+                        <th>@lang('admin.request.os_id')</th>
                         <th>@lang('admin.request.User_Name')</th>
                         <th>@lang('admin.request.Provider_Name')</th>
                         <th>@lang('admin.request.Date_Time')</th>
@@ -65,23 +60,23 @@
                         </td>
                         <td>
                             @if($request->status == "COMPLETED")
-                                <span class="tag tag-success">COMPLETED</span>
+                                <span class="tag tag-success">CONCLUÍDA</span>
                             @elseif($request->status == "CANCELLED")
-                                <span class="tag tag-danger">CANCELLED</span>
+                                <span class="tag tag-danger">CANCELADA</span>
                             @elseif($request->status == "ARRIVED")
-                                <span class="tag tag-info">ARRIVED</span>
+                                <span class="tag tag-info">EM ANDAMENTO</span>
                             @elseif($request->status == "SEARCHING")
-                                <span class="tag tag-info">SEARCHING</span>
+                                <span class="tag tag-info">PESQUISANDO</span>
                             @elseif($request->status == "ACCEPTED")
-                                <span class="tag tag-info">ACCEPTED</span>
+                                <span class="tag tag-info">MOTORISTA A CAMINHO</span>
                             @elseif($request->status == "STARTED")
-                                <span class="tag tag-info">STARTED</span>
+                                <span class="tag tag-info">VIAGEM INICIADA</span>
                             @elseif($request->status == "DROPPED")
-                                <span class="tag tag-info">DROPPED</span>
+                                <span class="tag tag-info">NO DESTINO</span>
                             @elseif($request->status == "PICKEDUP")
-                                <span class="tag tag-info">PICKEDUP</span>
+                                <span class="tag tag-info">INICIANDO</span>
                             @elseif($request->status == "SCHEDULED")
-                                <span class="tag tag-info">SCHEDULED</span>
+                                <span class="tag tag-info">AGENDADA</span>
                             @endif
                         </td>
                         <td>
@@ -106,19 +101,19 @@
                         </td>
                         <td>
                             @if($request->paid)
-                                Paid
+                                Pago
                             @else
-                                Não Paid
+                                Não Pago
                             @endif
                         </td>
                         <td>
                             <div class="btn-group" role="group">
                                 <button type="button" class="btn btn-primary waves-effect dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                    Action
+                                    Ação
                                 </button>
                                 <div class="dropdown-menu">
                                     <a href="{{ route('admin.requests.show', $request->id) }}" class="dropdown-item">
-                                        <i class="fa fa-search"></i> More details
+                                        <i class="fa fa-search"></i> Mais detalhes
                                     </a>
                                     <form action="{{ route('admin.requests.destroy', $request->id) }}" method="POST">
                                         {{ csrf_field() }}
@@ -126,7 +121,7 @@
                                         {{ method_field('DELETE') }}
                                         @can('ride-delete')
                                         <button type="submit" class="dropdown-item">
-                                            <i class="fa fa-trash"></i> Delete
+                                            <i class="fa fa-trash"></i> Excluir
                                         </button>
                                         @endcan
                                         @endif
@@ -141,6 +136,7 @@
                     <tr>
                         <th>#</th>
                         <th>@lang('admin.request.Booking_ID')</th>
+                        <th>@lang('admin.request.os_id')</th>
                         <th>@lang('admin.request.User_Name')</th>
                         <th>@lang('admin.request.Provider_Name')</th>
                         <th>@lang('admin.request.Date_Time')</th>
@@ -154,10 +150,9 @@
             </table>
             @include('common.pagination')
             @else
-            <h6 class="no-result">no results found</h6>
+            <h6 class="no-result">Nenhum resultado encontrado</h6>
             @endif 
         </div>
     </div>
 </div>
-    </div>
 @endsection

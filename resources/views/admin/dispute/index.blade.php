@@ -1,26 +1,24 @@
 @extends('admin.layout.base')
 
-@section('title', 'Dispute ')
+@section('title', 'Disputas ')
 
 @section('content')
 
-            <div class="card">
-                <div class="card-header card-header-primary">
-                    <h5 class="card-title">@lang('admin.dispute.title')</h5>
-                    @if(Setting::get('demo_mode', 0) == 1)
-                    <div class="card-category" style="height:50px;color:red;">
+    <div class="content-area py-1">
+        <div class="container-fluid">
+            
+            <div class="box box-block bg-white">
+                @if(Setting::get('demo_mode', 0) == 1)
+                    <div class="col-md-12" style="height:50px;color:red;">
                         ** Demo Mode : @lang('admin.demomode')
                     </div>
                 @endif
-                
+                <h5 class="mb-1">@lang('admin.dispute.title')</h5>
                 @can('dispute-create')
                 <a href="{{ route('admin.dispute.create') }}" style="margin-left: 1em;" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> @lang('admin.dispute.add_dispute')</a>
                 @endcan
-                </div>
-                <div class="card-body">
-                  <div class="table-responsive">
-                
-                <table class="table">
+
+                <table class="table table-striped table-bordered dataTable" id="table-2">
                     <thead>
                         <tr>
                             <th>@lang('admin.id')</th>
@@ -34,7 +32,7 @@
                     @foreach($dispute as $index => $dist)
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>{{ $dist->dispute_type == "provider" ? __('admin.user') : __('admin.provider') }}</td>
+                            <td>{{ $dist->dispute_type == "provider" ? "Motorista" : "Passageiro" }}</td>
                             <td>{{ ucfirst($dist->dispute_name) }} </td>
                             <td>
                                 @if($dist->status=='active')
@@ -52,7 +50,7 @@
                                     <a href="{{ route('admin.dispute.edit', $dist->id) }}" class="btn btn-info"><i class="fa fa-pencil"></i> @lang('admin.edit')</a>
                                     @endcan
                                     @can('dispute-delete')
-                                    <button class="btn btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> @lang('admin.delete')</button>
+                                    <button class="btn btn-danger" onclick="return confirm('Você tem certeza?')"><i class="fa fa-trash"></i> @lang('admin.delete')</button>
                                     @endcan
                                     @endif
                                 </form>

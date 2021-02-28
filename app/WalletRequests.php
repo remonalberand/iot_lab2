@@ -17,4 +17,8 @@ class WalletRequests extends Model
     public function provider(){
     	return $this->belongsTo('App\Provider', 'from_id');
     }
+
+    public function fleet(){
+    	return $this->belongsTo('App\Fleet', 'from_id');
+    }
 }

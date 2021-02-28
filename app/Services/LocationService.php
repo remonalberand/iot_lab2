@@ -9,6 +9,8 @@
 namespace App\Services;
 
 use GuzzleHttp\Client;
+use App\City;
+use App\State;
 use Log;
 
 class LocationService
@@ -26,10 +28,10 @@ class LocationService
     {
         $geocode = $this->geocode($latitude, $longitude);
         
-        //$State = State::where("letter", $geocode['state'])->first();
-        //$City = City::where("title", $geocode['city'])->where("state_id", $State->id)->first();
+        $State = State::where("letter", $geocode['state'])->first();
+        $City = City::where("title", $geocode['city'])->where("state_id", $State->id)->first();
         
-        return ;
+        return $City->id;
     }
     
     public function geocode($lat, $long){

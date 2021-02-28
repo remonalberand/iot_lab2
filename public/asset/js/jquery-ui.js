@@ -2471,9 +2471,9 @@ $.extend( $.effects, {
 		};
 	},
 
-	// Creates a placehold element so that the original element can be made absolute
-	createplacehold: function( element ) {
-		var placehold,
+	// Creates a placeholder element so that the original element can be made absolute
+	createPlaceholder: function( element ) {
+		var placeholder,
 			cssPosition = element.css( "position" ),
 			position = element.position();
 
@@ -2493,7 +2493,7 @@ $.extend( $.effects, {
 		if ( /^(static|relative)/.test( cssPosition ) ) {
 			cssPosition = "absolute";
 
-			placehold = $( "<" + element[ 0 ].nodeName + ">" ).insertAfter( element ).css( {
+			placeholder = $( "<" + element[ 0 ].nodeName + ">" ).insertAfter( element ).css( {
 
 				// Convert inline to inline block to account for inline elements
 				// that turn to inline block based on content (like img)
@@ -2511,9 +2511,9 @@ $.extend( $.effects, {
 			} )
 			.outerWidth( element.outerWidth() )
 			.outerHeight( element.outerHeight() )
-			.addClass( "ui-effects-placehold" );
+			.addClass( "ui-effects-placeholder" );
 
-			element.data( dataSpace + "placehold", placehold );
+			element.data( dataSpace + "placeholder", placeholder );
 		}
 
 		element.css( {
@@ -2522,24 +2522,24 @@ $.extend( $.effects, {
 			top: position.top
 		} );
 
-		return placehold;
+		return placeholder;
 	},
 
-	removeplacehold: function( element ) {
-		var dataKey = dataSpace + "placehold",
-				placehold = element.data( dataKey );
+	removePlaceholder: function( element ) {
+		var dataKey = dataSpace + "placeholder",
+				placeholder = element.data( dataKey );
 
-		if ( placehold ) {
-			placehold.remove();
+		if ( placeholder ) {
+			placeholder.remove();
 			element.removeData( dataKey );
 		}
 	},
 
-	// Removes a placehold if it exists and restores
-	// properties that were modified during placehold creation
+	// Removes a placeholder if it exists and restores
+	// properties that were modified during placeholder creation
 	cleanUp: function( element ) {
 		$.effects.restoreStyle( element );
-		$.effects.removeplacehold( element );
+		$.effects.removePlaceholder( element );
 	},
 
 	setTransition: function( element, list, factor, value ) {
@@ -2735,7 +2735,7 @@ $.fn.extend( {
 		}
 
 		// Run prefilter on all elements first to ensure that
-		// any showing or hiding happens before placehold creation,
+		// any showing or hiding happens before placeholder creation,
 		// which ensures that any layout changes are correctly captured.
 		return queue === false ?
 			this.each( prefilter ).each( run ) :
@@ -2951,21 +2951,21 @@ var effectsEffectBlind = $.effects.define( "blind", "hide", function( options, d
 		direction = options.direction || "up",
 		start = element.cssClip(),
 		animate = { clip: $.extend( {}, start ) },
-		placehold = $.effects.createplacehold( element );
+		placeholder = $.effects.createPlaceholder( element );
 
 	animate.clip[ map[ direction ][ 0 ] ] = animate.clip[ map[ direction ][ 1 ] ];
 
 	if ( options.mode === "show" ) {
 		element.cssClip( animate.clip );
-		if ( placehold ) {
-			placehold.css( $.effects.clipToBox( animate ) );
+		if ( placeholder ) {
+			placeholder.css( $.effects.clipToBox( animate ) );
 		}
 
 		animate.clip = start;
 	}
 
-	if ( placehold ) {
-		placehold.animate( $.effects.clipToBox( animate ), options.duration, options.easing );
+	if ( placeholder ) {
+		placeholder.animate( $.effects.clipToBox( animate ), options.duration, options.easing );
 	}
 
 	element.animate( animate, {
@@ -3018,7 +3018,7 @@ var effectsEffectBounce = $.effects.define( "bounce", function( options, done ) 
 
 		queuelen = element.queue().length;
 
-	$.effects.createplacehold( element );
+	$.effects.createPlaceholder( element );
 
 	refValue = element.css( ref );
 
@@ -3107,7 +3107,7 @@ var effectsEffectClip = $.effects.define( "clip", "hide", function( options, don
 		left: horizontal ? ( start.right - start.left ) / 2 : start.left
 	};
 
-	$.effects.createplacehold( element );
+	$.effects.createPlaceholder( element );
 
 	if ( options.mode === "show" ) {
 		element.cssClip( animate.clip );
@@ -3155,7 +3155,7 @@ var effectsEffectDrop = $.effects.define( "drop", "hide", function( options, don
 			opacity: 0
 		};
 
-	$.effects.createplacehold( element );
+	$.effects.createPlaceholder( element );
 
 	distance = options.distance ||
 		element[ ref === "top" ? "outerHeight" : "outerWidth" ]( true ) / 2;
@@ -3339,7 +3339,7 @@ var effectsEffectFold = $.effects.define( "fold", "hide", function( options, don
 		ref = horizFirst ? [ "right", "bottom" ] : [ "bottom", "right" ],
 		duration = options.duration / 2,
 
-		placehold = $.effects.createplacehold( element ),
+		placeholder = $.effects.createPlaceholder( element ),
 
 		start = element.cssClip(),
 		animation1 = { clip: $.extend( {}, start ) },
@@ -3358,8 +3358,8 @@ var effectsEffectFold = $.effects.define( "fold", "hide", function( options, don
 
 	if ( show ) {
 		element.cssClip( animation2.clip );
-		if ( placehold ) {
-			placehold.css( $.effects.clipToBox( animation2 ) );
+		if ( placeholder ) {
+			placeholder.css( $.effects.clipToBox( animation2 ) );
 		}
 
 		animation2.clip = start;
@@ -3368,8 +3368,8 @@ var effectsEffectFold = $.effects.define( "fold", "hide", function( options, don
 	// Animate
 	element
 		.queue( function( next ) {
-			if ( placehold ) {
-				placehold
+			if ( placeholder ) {
+				placeholder
 					.animate( $.effects.clipToBox( animation1 ), duration, options.easing )
 					.animate( $.effects.clipToBox( animation2 ), duration, options.easing );
 			}
@@ -3466,7 +3466,7 @@ var effectsEffectSize = $.effects.define( "size", function( options, done ) {
 		from = options.from || original,
 		to = options.to || $.effects.scaledDimensions( element, 0 );
 
-	$.effects.createplacehold( element );
+	$.effects.createPlaceholder( element );
 
 	if ( mode === "show" ) {
 		temp = from;
@@ -3756,7 +3756,7 @@ var effectsEffectShake = $.effects.define( "shake", function( options, done ) {
 
 		queuelen = element.queue().length;
 
-	$.effects.createplacehold( element );
+	$.effects.createPlaceholder( element );
 
 	// Animation
 	animation[ ref ] = ( positiveMotion ? "-=" : "+=" ) + distance;
@@ -3816,7 +3816,7 @@ var effectsEffectSlide = $.effects.define( "slide", "show", function( options, d
 			element[ ref === "top" ? "outerHeight" : "outerWidth" ]( true ),
 		animation = {};
 
-	$.effects.createplacehold( element );
+	$.effects.createPlaceholder( element );
 
 	startClip = element.cssClip();
 	startRef = element.position()[ ref ];
@@ -9474,7 +9474,7 @@ var widgetsMouse = $.widget( "ui.mouse", {
 		return this.mouseDelayMet;
 	},
 
-	// These are placehold methods, to be overriden by extending plugin
+	// These are placeholder methods, to be overriden by extending plugin
 	_mouseStart: function( /* event */ ) {},
 	_mouseDrag: function( /* event */ ) {},
 	_mouseStop: function( /* event */ ) {},
@@ -10319,9 +10319,9 @@ $.ui.plugin.add( "draggable", "connectToSortable", {
 				// as this also handles revert (#9675) since the draggable
 				// may have modified them in unexpected ways (#8809)
 				sortable._storedCSS = {
-					position: sortable.placehold.css( "position" ),
-					top: sortable.placehold.css( "top" ),
-					left: sortable.placehold.css( "left" )
+					position: sortable.placeholder.css( "position" ),
+					top: sortable.placeholder.css( "top" ),
+					left: sortable.placeholder.css( "left" )
 				};
 
 				sortable._mouseStop( event );
@@ -10454,8 +10454,8 @@ $.ui.plugin.add( "draggable", "connectToSortable", {
 					sortable.options.revert = sortable.options._revert;
 					sortable.options.helper = sortable.options._helper;
 
-					if ( sortable.placehold ) {
-						sortable.placehold.remove();
+					if ( sortable.placeholder ) {
+						sortable.placeholder.remove();
 					}
 
 					// Restore and recalculate the draggable's offset considering the sortable
@@ -15228,14 +15228,14 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 		cursor: "auto",
 		cursorAt: false,
 		dropOnEmpty: true,
-		forceplaceholdSize: false,
+		forcePlaceholderSize: false,
 		forceHelperSize: false,
 		grid: false,
 		handle: false,
 		helper: "original",
 		items: "> *",
 		opacity: false,
-		placehold: false,
+		placeholder: false,
 		revert: false,
 		scroll: true,
 		scrollSensitivity: 20,
@@ -15438,8 +15438,8 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 			this.currentItem.hide();
 		}
 
-		//Create the placehold
-		this._createplacehold();
+		//Create the placeholder
+		this._createPlaceholder();
 
 		//Set a containment if given in the options
 		if ( o.containment ) {
@@ -15597,13 +15597,13 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 				continue;
 			}
 
-			// Only put the placehold inside the current Container, skip all
+			// Only put the placeholder inside the current Container, skip all
 			// items from other containers. This works because when moving
 			// an item from one container to another the
-			// currentContainer is switched before the placehold is moved.
+			// currentContainer is switched before the placeholder is moved.
 			//
 			// Without this, moving items in "sub-sortables" can cause
-			// the placehold to jitter between the outer and inner container.
+			// the placeholder to jitter between the outer and inner container.
 			if ( item.instance !== this.currentContainer ) {
 				continue;
 			}
@@ -15612,8 +15612,8 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 			// no useless actions that have been done before
 			// no action if the item moved is the parent of the item checked
 			if ( itemElement !== this.currentItem[ 0 ] &&
-				this.placehold[ intersection === 1 ? "next" : "prev" ]()[ 0 ] !== itemElement &&
-				!$.contains( this.placehold[ 0 ], itemElement ) &&
+				this.placeholder[ intersection === 1 ? "next" : "prev" ]()[ 0 ] !== itemElement &&
+				!$.contains( this.placeholder[ 0 ], itemElement ) &&
 				( this.options.type === "semi-dynamic" ?
 					!$.contains( this.element[ 0 ], itemElement ) :
 					true
@@ -15662,7 +15662,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 
 		if ( this.options.revert ) {
 			var that = this,
-				cur = this.placehold.offset(),
+				cur = this.placeholder.offset(),
 				axis = this.options.axis,
 				animation = {};
 
@@ -15720,12 +15720,12 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 
 		}
 
-		if ( this.placehold ) {
+		if ( this.placeholder ) {
 
-			//$(this.placehold[0]).remove(); would have been the jQuery way - unfortunately,
+			//$(this.placeholder[0]).remove(); would have been the jQuery way - unfortunately,
 			// it unbinds ALL events from the original node!
-			if ( this.placehold[ 0 ].parentNode ) {
-				this.placehold[ 0 ].parentNode.removeChild( this.placehold[ 0 ] );
+			if ( this.placeholder[ 0 ].parentNode ) {
+				this.placeholder[ 0 ].parentNode.removeChild( this.placeholder[ 0 ] );
 			}
 			if ( this.options.helper !== "original" && this.helper &&
 					this.helper[ 0 ].parentNode ) {
@@ -15907,7 +15907,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 							inst.options.items.call( inst.element ) :
 							$( inst.options.items, inst.element )
 								.not( ".ui-sortable-helper" )
-								.not( ".ui-sortable-placehold" ), inst ] );
+								.not( ".ui-sortable-placeholder" ), inst ] );
 					}
 				}
 			}
@@ -15918,7 +15918,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 				.call( this.element, null, { options: this.options, item: this.currentItem } ) :
 			$( this.options.items, this.element )
 				.not( ".ui-sortable-helper" )
-				.not( ".ui-sortable-placehold" ), this ] );
+				.not( ".ui-sortable-placeholder" ), this ] );
 
 		function addItems() {
 			items.push( this );
@@ -16051,30 +16051,30 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 		return this;
 	},
 
-	_createplacehold: function( that ) {
+	_createPlaceholder: function( that ) {
 		that = that || this;
 		var className,
 			o = that.options;
 
-		if ( !o.placehold || o.placehold.constructor === String ) {
-			className = o.placehold;
-			o.placehold = {
+		if ( !o.placeholder || o.placeholder.constructor === String ) {
+			className = o.placeholder;
+			o.placeholder = {
 				element: function() {
 
 					var nodeName = that.currentItem[ 0 ].nodeName.toLowerCase(),
 						element = $( "<" + nodeName + ">", that.document[ 0 ] );
 
-						that._addClass( element, "ui-sortable-placehold",
+						that._addClass( element, "ui-sortable-placeholder",
 								className || that.currentItem[ 0 ].className )
 							._removeClass( element, "ui-sortable-helper" );
 
 					if ( nodeName === "tbody" ) {
-						that._createTrplacehold(
+						that._createTrPlaceholder(
 							that.currentItem.find( "tr" ).eq( 0 ),
 							$( "<tr>", that.document[ 0 ] ).appendTo( element )
 						);
 					} else if ( nodeName === "tr" ) {
-						that._createTrplacehold( that.currentItem, element );
+						that._createTrPlaceholder( that.currentItem, element );
 					} else if ( nodeName === "img" ) {
 						element.attr( "src", that.currentItem.attr( "src" ) );
 					}
@@ -16087,11 +16087,11 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 				},
 				update: function( container, p ) {
 
-					// 1. If a className is set as 'placehold option, we don't force sizes -
+					// 1. If a className is set as 'placeholder option, we don't force sizes -
 					// the class is responsible for that
-					// 2. The option 'forceplaceholdSize can be enabled to force it even if a
+					// 2. The option 'forcePlaceholderSize can be enabled to force it even if a
 					// class name is specified
-					if ( className && !o.forceplaceholdSize ) {
+					if ( className && !o.forcePlaceholderSize ) {
 						return;
 					}
 
@@ -16113,18 +16113,18 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 			};
 		}
 
-		//Create the placehold
-		that.placehold = $( o.placehold.element.call( that.element, that.currentItem ) );
+		//Create the placeholder
+		that.placeholder = $( o.placeholder.element.call( that.element, that.currentItem ) );
 
 		//Append it after the actual current item
-		that.currentItem.after( that.placehold );
+		that.currentItem.after( that.placeholder );
 
-		//Update the size of the placehold (TODO: Logic to fuzzy, see line 316/317)
-		o.placehold.update( that, that.placehold );
+		//Update the size of the placeholder (TODO: Logic to fuzzy, see line 316/317)
+		o.placeholder.update( that, that.placeholder );
 
 	},
 
-	_createTrplacehold: function( sourceTr, targetTr ) {
+	_createTrPlaceholder: function( sourceTr, targetTr ) {
 		var that = this;
 
 		sourceTr.children().each( function() {
@@ -16237,8 +16237,8 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 			this.containers[ innermostIndex ]._trigger( "change", event, this._uiHash( this ) );
 			this.currentContainer = this.containers[ innermostIndex ];
 
-			//Update the placehold
-			this.options.placehold.update( this.currentContainer, this.placehold );
+			//Update the placeholder
+			this.options.placeholder.update( this.currentContainer, this.placeholder );
 
 			this.containers[ innermostIndex ]._trigger( "over", event, this._uiHash( this ) );
 			this.containers[ innermostIndex ].containerCache.over = 1;
@@ -16565,8 +16565,8 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 
 	_rearrange: function( event, i, a, hardRefresh ) {
 
-		a ? a[ 0 ].appendChild( this.placehold[ 0 ] ) :
-			i.item[ 0 ].parentNode.insertBefore( this.placehold[ 0 ],
+		a ? a[ 0 ].appendChild( this.placeholder[ 0 ] ) :
+			i.item[ 0 ].parentNode.insertBefore( this.placeholder[ 0 ],
 				( this.direction === "down" ? i.item[ 0 ] : i.item[ 0 ].nextSibling ) );
 
 		//Various things done here to improve the performance:
@@ -16592,7 +16592,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 
 		this.reverting = false;
 
-		// We delay all events that have to be triggered to after the point where the placehold
+		// We delay all events that have to be triggered to after the point where the placeholder
 		// has been removed and everything else normalized again
 		var i,
 			delayedTriggers = [];
@@ -16601,7 +16601,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 		// Note: don't do it if the current item is already removed (by a user), or it gets
 		// reappended (see #4088)
 		if ( !this._noFinalSort && this.currentItem.parent().length ) {
-			this.placehold.before( this.currentItem );
+			this.placeholder.before( this.currentItem );
 		}
 		this._noFinalSort = null;
 
@@ -16687,9 +16687,9 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 			this._trigger( "beforeStop", event, this._uiHash() );
 		}
 
-		//$(this.placehold[0]).remove(); would have been the jQuery way - unfortunately,
+		//$(this.placeholder[0]).remove(); would have been the jQuery way - unfortunately,
 		// it unbinds ALL events from the original node!
-		this.placehold[ 0 ].parentNode.removeChild( this.placehold[ 0 ] );
+		this.placeholder[ 0 ].parentNode.removeChild( this.placeholder[ 0 ] );
 
 		if ( !this.cancelHelperRemoval ) {
 			if ( this.helper[ 0 ] !== this.currentItem[ 0 ] ) {
@@ -16722,7 +16722,7 @@ var widgetsSortable = $.widget( "ui.sortable", $.ui.mouse, {
 		var inst = _inst || this;
 		return {
 			helper: inst.helper,
-			placehold: inst.placehold || $( [] ),
+			placeholder: inst.placeholder || $( [] ),
 			position: inst.position,
 			originalPosition: inst.originalPosition,
 			offset: inst.positionAbs,

@@ -4,24 +4,21 @@
 
 @section('content')
 
-<div>
+<div class="content-area py-1">
     <div class="container-fluid">
 
-        <div class="card">
-            <div class="card-header card-header-primary">
+        <div class="box box-block bg-white">
             @if(Setting::get('demo_mode', 0) == 1)
             <div class="col-md-12" style="height:50px;color:red;">
                 ** Demo Mode : @lang('admin.demomode')
             </div>
             @endif
-            <h5 class="card-title">@lang('admin.lostitem.title')</h5>
+            <h5 class="mb-1">@lang('admin.lostitem.title')</h5>
             @can('lost-item-create')
             <a href="{{ route('admin.lostitem.create') }}" style="margin-left: 1em;" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> @lang('admin.lostitem.add')</a>
             @endcan
-        </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table">
+
+            <table class="table table-striped table-bordered dataTable" id="table-2">
                 <thead>
                     <tr>
                         <th>@lang('admin.id')</th>
@@ -52,7 +49,7 @@
                             @if( Setting::get('demo_mode', 0) == 0)
                             @can('lost-item-edit')
                             @if($lost->status=='open')
-                            <a href="{{ route('admin.lostitem.edit', $lost->id) }}" href="#" class="btn btn-info"><i class="fa fa-pencil"></i> Edit</a>
+                            <a href="{{ route('admin.lostitem.edit', $lost->id) }}" href="#" class="btn btn-info"><i class="fa fa-pencil"></i> Editar</a>
                             @endif   
                             @endcan 
                             @endif                                

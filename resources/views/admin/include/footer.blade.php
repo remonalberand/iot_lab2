@@ -1,12 +1,9 @@
 <footer class="footer">
 	<div class="container-fluid">
-	  <div class="copyright float-right" id="date">
-		{{ config('constants.site_copyright', 'Thinkin Cab') }}
-	  </div>
+		<div class="row text-xs-center">
+			<div class="col-sm-4 text-sm-left mb-0-5 mb-sm-0">
+				<p>{{ config('constants.site_copyright', '&copy; '.date('Y').' Appoets') }}</p>
+			</div>
+		</div>
 	</div>
-  </footer>
-  <script>
-	const x = new Date().getFullYear();
-	let date = document.getElementById('date');
-	date.innerHTML = '&copy; ' + x + date.innerHTML;
-  </script>
+</footer>

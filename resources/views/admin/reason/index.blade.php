@@ -4,24 +4,21 @@
 
 @section('content')
 
+    <div class="content-area py-1">
         <div class="container-fluid">
             
-            <div class="card">
-                <div class="card-header card-header-primary">
-                    <h4 class="card-title ">Simple Table</h4>
+            <div class="box box-block bg-white">
                 @if(Setting::get('demo_mode', 0) == 1)
                     <div class="col-md-12" style="height:50px;color:red;">
                         ** Demo Mode : @lang('admin.demomode')
                     </div>
                 @endif
-                <h5 class="card-title">@lang('admin.reason.title')</h5>
+                <h5 class="mb-1">@lang('admin.reason.title')</h5>
                 @can('cancel-reasons-create')
                 <a href="{{ route('admin.reason.create') }}" style="margin-left: 1em;" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> @lang('admin.reason.add_reason')</a>
                 @endcan
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table">
+
+                <table class="table table-striped table-bordered dataTable" id="table-2">
                     <thead>
                         <tr>
                             <th>@lang('admin.id')</th>
@@ -35,13 +32,13 @@
                     @foreach($reasons as $index => $reason)
                         <tr>
                             <td>{{$index + 1}}</td>
-                            <td>{{$reason->type == "PROVIDER" ? "Driver" : "User"}}</td>
+                            <td>{{$reason->type == "PROVIDER" ? "MOTORISTA" : "PASSAGEIRO"}}</td>
                             <td>{{$reason->reason}}</td>
                             <td>
                                 @if($reason->status==1)
-                                    <span class="tag tag-success">Active</span>
+                                    <span class="tag tag-success">Ativo</span>
                                 @else
-                                    <span class="tag tag-danger">In active</span>
+                                    <span class="tag tag-danger">Inativo</span>
                                 @endif
                             </td>
                             <td>
@@ -53,7 +50,7 @@
                                     <a href="{{ route('admin.reason.edit', $reason->id) }}" class="btn btn-info"><i class="fa fa-pencil"></i> Edit</a>
                                     @endcan
                                     @can('cancel-reasons-delete')
-                                    <button class="btn btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</button>
+                                    <button class="btn btn-danger" onclick="return confirm('Você tem certeza?')"><i class="fa fa-trash"></i> Delete</button>
                                     @endcan
                                     @endif
                                 </form>
@@ -72,7 +69,7 @@
                     </tfoot>
                 </table>
             </div>
-            </div>
+            
         </div>
     </div>
 @endsection

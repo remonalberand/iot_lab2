@@ -245,13 +245,15 @@ class DispatcherController extends Controller
         }
 
         try{
-
+            
+            //TODO ALLAN - Alterações débito na máquina e voucher
+            //Verifica se os tipos de pagamentos estão disponíveis
             if(config('constants.voucher', 1) == 0 && $request->payment_mode == 'VOUCHER'){
-                return response()->json(['message' => "Voucher payment disabled! Go to the payment setting to enable."]);
+                return response()->json(['message' => "Pagamento com Voucher desativado! Vá até a configuração de pagamento para ativar."]);
             }elseif(config('constants.cash', 1) == 0 && $request->payment_mode == 'CASH'){
-                return response()->json(['message' => "Voucher payment disabled! Go to the payment setting to enable."]);
+                return response()->json(['message' => "Pagamento em Dinheiro desativado! Vá até a configuração de pagamento para ativar."]);
             }elseif(config('constants.debit_machine', 1) == 0 && $request->payment_mode == 'DEBIT_MACHINE'){
-                return response()->json(['message' => "Machine Debit Payment disabled! Go to the payment setting to enable."]);
+                return response()->json(['message' => "Pagamento com Débito na Máquina desativado! Vá até a configuração de pagamento para ativar."]);
             }
             
             $ActiveProviders = ProviderService::AvailableServiceProvider($request->service_type)

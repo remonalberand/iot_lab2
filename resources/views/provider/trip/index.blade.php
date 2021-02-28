@@ -19,7 +19,7 @@
                             <th>Quantia</th>
                             <th>TOS</th>
                             <th>Data</th>
-                            <th>Payment</th>
+                            <th>Pagamento</th>
                         </tr>
                     </thead>
 

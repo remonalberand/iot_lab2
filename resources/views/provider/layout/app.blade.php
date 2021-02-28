@@ -25,7 +25,7 @@ if(Auth::user()->status=='card'){
     <link rel="shortcut icon" href="{{ config('constants.site_icon') }}" type="image/x-icon">
     <link rel="icon" href="{{ config('constants.site_icon') }}" type="image/x-icon">
 
-    <title>@yield('title'){{ config('constants.site_title', 'Thinkin Cab') }}</title>
+    <title>@yield('title'){{ config('constants.site_title', 'Moob Urban') }}</title>
     <link rel="shortcut icon" type="image/png" href="{{ config('constants.site_icon') }}"/>
     
 
@@ -113,7 +113,17 @@ if(Auth::user()->status=='card'){
 
     @yield('scripts')
     @if(Setting::get('demo_mode', 0) == 1)
-{{--Chat support here--}}
+        <!-- Start of LiveChat (www.livechatinc.com) code -->
+        <script type="text/javascript">
+            window.__lc = window.__lc || {};
+            window.__lc.license = 8256261;
+            (function() {
+                var lc = document.createElement('script'); lc.type = 'text/javascript'; lc.async = true;
+                lc.src = ('https:' == document.location.protocol ? 'https://' : 'http://') + 'cdn.livechatinc.com/tracking.js';
+                var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(lc, s);
+            })();
+        </script>
+        <!-- End of LiveChat code -->
     @endif
     <script type="text/javascript">
 

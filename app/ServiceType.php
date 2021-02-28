@@ -12,6 +12,7 @@ class ServiceType extends Model
      * @var array
      */
     protected $fillable = [
+        'fleet_id',
         'name',
         'provider_name',
         'image',
@@ -38,4 +39,9 @@ class ServiceType extends Model
     protected $hidden = [
          'created_at', 'updated_at'
     ];
+
+    public function fleet()
+    {
+        return $this->belongsTo(Fleet::class);
+    }
 }

@@ -1,18 +1,15 @@
 @extends('admin.layout.base')
 
-@section('title', 'Admin Transactions')
+@section('title', 'Transações do Admin ')
 
 @section('content')
 
+<div class="content-area py-1">
         <div class="container-fluid">
             
-            <div class="card">
-            <div class="card-header card-header-primary">
-                <h5 class="card-title">Total Transactions (@lang('provider.current_balance') : {{currency($wallet_balance)}})</h5>
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table">
+            <div class="box box-block bg-white">
+                <h5 class="mb-1">Total Transações (@lang('provider.current_balance') : {{currency($wallet_balance)}})</h5>
+                <table class="table table-striped table-bordered dataTable" id="table-4">
                     <thead>
                         <tr>
                             <th>@lang('admin.sno')</th>
@@ -32,7 +29,7 @@
                                 <td>{{$wallet->transaction_alias}}</td>
                                 <td>{{$wallet->created_at->diffForHumans()}}</td>
                                 <td>{{$wallet->transaction_desc}}</td>
-                                <td>{{$wallet->type == 'C' ? 'Credit' : 'Debit'}}</td>
+                                <td>{{$wallet->type == 'C' ? 'Crédito' : 'Débito'}}</td>
                                 <td>{{currency($wallet->amount)}}
                                 </td>
                                
@@ -41,9 +38,9 @@
                     </tbody>
                 </table>
                 @include('common.pagination')
-                <p style="color:red;">{{config('constants.booking_prefix', '') }} - Ride Transactions, PSET - Driver Transaction, URC - Passenger Refills</p>
+                <p style="color:red;">{{config('constants.booking_prefix', '') }} - Ride Transactions, PSET - Transação de Motorista, FSET - Transação de Frota, URC - Recargas de Passageiro</p>
             </div>
-            </div>
+            
         </div>
     </div>
 @endsection

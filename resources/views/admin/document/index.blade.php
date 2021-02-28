@@ -4,24 +4,20 @@
 
 @section('content')
 
-
+    <div class="content-area py-1">
         <div class="container-fluid">
             
-            <div class="card">
-                <div class="card-header card-header-primary">
+            <div class="box box-block bg-white">
              @if(Setting::get('demo_mode', 0) == 1)
                 <div class="col-md-12" style="height:50px;color:red;">
                     ** Demo Mode : @lang('admin.demomode')
                 </div>
              @endif
-                <h5 class="card-title">@lang('admin.document.document')</h5>
+                <h5 class="mb-1">@lang('admin.document.document')</h5>
                 @can('documents-create')
                 <a href="{{ route('admin.document.create') }}" style="margin-left: 1em;" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> @lang('admin.document.add_Document')</a>
                 @endcan
-            </div>
-            <div class="card-body">
-                <div class="table-responsive">
-                <table class="table ">
+                <table class="table table-striped table-bordered dataTable" id="table-2">
                     <thead>
                         <tr>
                             <th>@lang('admin.id')</th>
@@ -45,7 +41,7 @@
                                     <a href="{{ route('admin.document.edit', $document->id) }}" class="btn btn-info"><i class="fa fa-pencil"></i> @lang('admin.edit')</a>
                                     @endcan
                                     @can('documents-delete')
-                                    <button class="btn btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> @lang('admin.delete')</button>
+                                    <button class="btn btn-danger" onclick="return confirm('Você tem certeza?')"><i class="fa fa-trash"></i> @lang('admin.delete')</button>
                                     @endcan
                                     @endif
                                 </form>
@@ -63,8 +59,7 @@
                     </tfoot>
                 </table>
             </div>
-            </div>
+            
         </div>
     </div>
-
 @endsection

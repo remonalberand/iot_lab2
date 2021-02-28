@@ -20,19 +20,19 @@ class SettingsTableSeeder extends Seeder
             ],
             [
                 'key' => 'help',
-                'value' => '<p>Support</p>'
+                'value' => '<p>Suporte</p>'
             ],
             [
                 'key' => 'page_privacy',
-                'value' => '<p></p>'
+                'value' => '<p>Política de Privacidade</p>'
             ],
             [
                 'key' => 'terms',
-                'value' => '<p></p>'
+                'value' => '<p>Termos e Condições</p>'
             ],
             [
                 'key' => 'cancel',
-                'value' => '<p></p>'
+                'value' => '<p>Política de Cancelamento</p>'
             ]
         ]);
     }

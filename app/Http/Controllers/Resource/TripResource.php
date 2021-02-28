@@ -43,6 +43,19 @@ class TripResource extends Controller
         }
     }
 
+    public function Fleetindex()
+    {
+        try {
+            $requests = UserRequests::RequestHistory()
+                        ->whereHas('provider', function($query) {
+                            $query->where('fleet', Auth::user()->id );
+                        })->get();
+            return view('fleet.request.index', compact('requests'));
+        } catch (Exception $e) {
+            return back()->with('flash_error', trans('admin.something_wrong'));
+        }
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -57,6 +70,26 @@ class TripResource extends Controller
 
             return view('admin.request.scheduled', compact('requests'));
         } catch (Exception $e) {
+             return back()->with('flash_error', trans('admin.something_wrong'));
+        }
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function Fleetscheduled()
+    {
+        try{
+            $requests = UserRequests::where('status' , 'SCHEDULED')
+                         ->whereHas('provider', function($query) {
+                            $query->where('fleet', Auth::user()->id );
+                        })
+                        ->get();
+
+            return view('fleet.request.scheduled', compact('requests'));
+        } catch (\Exception $e) {
              return back()->with('flash_error', trans('admin.something_wrong'));
         }
     }
@@ -93,6 +126,16 @@ class TripResource extends Controller
         try {
             $request = UserRequests::with('rating')->findOrFail($id);
             return view('admin.request.show', compact('request'));
+        } catch (Exception $e) {
+             return back()->with('flash_error', trans('admin.something_wrong'));
+        }
+    }
+
+    public function Fleetshow($id)
+    {
+        try {
+            $request = UserRequests::findOrFail($id);
+            return view('fleet.request.show', compact('request'));
         } catch (Exception $e) {
              return back()->with('flash_error', trans('admin.something_wrong'));
         }
@@ -138,6 +181,17 @@ class TripResource extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
+    {
+        try {
+            $Request = UserRequests::findOrFail($id);
+            $Request->delete();
+            return back()->with('flash_success', trans('admin.request_delete'));
+        } catch (Exception $e) {
+            return back()->with('flash_error', trans('admin.something_wrong'));
+        }
+    }
+
+    public function Fleetdestroy($id)
     {
         try {
             $Request = UserRequests::findOrFail($id);

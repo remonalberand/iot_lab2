@@ -1,16 +1,14 @@
 @extends('admin.layout.base')
 
-@section('title', 'Drivers Earnings ')
+@section('title', 'Ganhos de Motoristas ')
 
 @section('content')
 
+<div class="content-area py-1">
     <div class="container-fluid">
-        <div class="card">
-            <div class="card-header card-header-primary">
-                <h4 class="card-title ">Simple Table</h4>
-            <h3>Drivers Earnings</h3>
-            </div>
-            <div class="card-body">
+        <div class="box box-block bg-white">
+            <h3>Ganhos de Motoristas</h3>
+
             <div class="row">
 
                 <div class="row row-md mb-2" style="padding: 15px;">
@@ -23,8 +21,7 @@
                             </div>
 
                             @if(count($Providers) != 0)
-                            <div class="table-responsive">
-                            <table class="table">
+                            <table class="table table-striped table-bordered dataTable" id="table-4">
                                 <thead>
                                     <tr>
                                         <td>@lang('admin.provides.provider_name')</td>
@@ -50,13 +47,13 @@
                                         </td>
                                         <td>
                                             @if($provider->status == "approved")
-                                                <span class="tag tag-success">Approved</span>
+                                                <span class="tag tag-success">Aprovado</span>
                                             @elseif($provider->status == "banned")
-                                                <span class="tag tag-danger">Banned</span>
+                                                <span class="tag tag-danger">Banido</span>
                                             @elseif($provider->status == "document")
-                                                <span class="tag tag-warning">Awaiting Verification</span>
+                                                <span class="tag tag-warning">Aguadando validação</span>
                                             @elseif($provider->status == "onboarding")
-                                                <span class="tag tag-danger">Missing Documents</span>
+                                                <span class="tag tag-danger">Faltando Documentos</span>
                                             @else
                                                 <span class="tag tag-info">{{$provider->status}}</span>
                                             @endif

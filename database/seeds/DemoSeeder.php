@@ -38,9 +38,9 @@ class DemoSeeder extends Seeder
         DB::table('referral_histroy')->truncate();
         DB::table('users')->truncate();
         DB::table('users')->insert([[
-            'first_name' => 'User',
+            'first_name' => 'Passageiro',
             'last_name' => 'Demo',
-            'email' => 'User@demo.com',
+            'email' => 'passageiro@demo.com',
             'password' => bcrypt('123456'),
             'country_code' => '+73',
             'mobile' => '998020787',
@@ -51,9 +51,9 @@ class DemoSeeder extends Seeder
 
         DB::table('providers')->truncate();
         DB::table('providers')->insert([[
-            'first_name' => 'Driver',
+            'first_name' => 'Motorista',
             'last_name' => 'Demo',
-            'email' => 'driver@demo.com',
+            'email' => 'motorista@demo.com',
             'password' => bcrypt('123456'),
             'country_code' => '+73',
             'mobile' => '998020787',

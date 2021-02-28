@@ -73,9 +73,9 @@ class UserResource extends Controller
      */
     public function create()
     {
-        
+        $states = State::with('cities')->get();
 
-        return view('admin.users.create');
+        return view('admin.users.create',compact('states'));
     }
 
     /**
@@ -149,10 +149,13 @@ class UserResource extends Controller
     public function edit($id)
     {
         try {
-            
+            $states = State::with('cities')->get();
             $user = User::findOrFail($id);
+            $stateId = State::whereHas('cities', function ($query) use ($user) {
+                $query->where('id', $user->city_id);
+            })->get()->first();
 
-            return view('admin.users.edit',compact('user'));
+            return view('admin.users.edit',compact('user','states','stateId'));
         } catch (ModelNotFoundException $e) {
             return $e;
         }
@@ -168,7 +171,7 @@ class UserResource extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request, [
-            //'city_id' => 'required',
+            'city_id' => 'required',
             'first_name' => 'required|max:255',
             'last_name' => 'required|max:255',
             'country_code' => 'required|max:25',
@@ -191,18 +194,18 @@ class UserResource extends Controller
                 }');
             // $file=QrCode::format('png')->size(200)->margin(20)->phoneNumber($request->country_code.$request->mobile);
             $user->qrcode_url = Helper::upload_qrCode($request->mobile,$file);
-            //$user->city_id = $request->city_id;
+            $user->city_id = $request->city_id;
             $user->first_name = $request->first_name;
             $user->last_name = $request->last_name;
             $user->country_code = $request->country_code;
             $user->mobile = $request->mobile;
             if($request->password && !$request->password_confirm){
-                return back()->with('flash_error', 'Please enter the confirmation password!');
+                return back()->with('flash_error', 'Por favor, informe a senha de confirmação!');
             }elseif($request->password && $request->password_confirm){
                 if($request->password == $request->password_confirm){
                     $user->password = bcrypt($request->password);
                 }else{
-                    return back()->with('flash_error', 'Passwords do not match!');
+                    return back()->with('flash_error', 'As senhas não conferem!');
                 }
             }
             $user->save();

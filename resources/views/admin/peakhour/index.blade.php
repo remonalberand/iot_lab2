@@ -1,28 +1,24 @@
 @extends('admin.layout.base')
 
-@section('title', __('admin.peakhour.title'))
+@section('title', 'Horários de Pico ')
 
 @section('content')
 
-    <div>
+    <div class="content-area py-1">
         <div class="container-fluid">
             
-            <div class="card">
-                <div class="card-header card-header-primary">
+            <div class="box box-block bg-white">
                 @if(Setting::get('demo_mode', 0) == 1)
                     <div class="col-md-12" style="height:50px;color:red;">
                         ** Demo Mode : @lang('admin.demomode')
                     </div>
                 @endif
-                <h5 class="card-title">@lang('admin.peakhour.title')</h5>
-                @can('promocodes-create')
+                <h5 class="mb-1">@lang('admin.peakhour.title')</h5>
+                @can('peak-hour-create')
                 <a href="{{ route('admin.peakhour.create') }}" style="margin-left: 1em;" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> @lang('admin.peakhour.add_time')</a>
                 @endcan
-            </div>
-            <div class="card-body">
-              <div class="table-responsive">
 
-                <table class="table">
+                <table class="table table-striped table-bordered dataTable" id="table-2">
                     <thead>
                         <tr>
                             <th>@lang('admin.id')</th>
@@ -44,10 +40,10 @@
                                     <input type="hidden" name="_method" value="DELETE">
                                     @if( Setting::get('demo_mode', 0) == 0)
                                     @can('peak-hour-edit')
-                                    <a href="{{ route('admin.peakhour.edit', $peak->id) }}" class="btn btn-info"><i class="fa fa-pencil"></i> Edit</a>
+                                    <a href="{{ route('admin.peakhour.edit', $peak->id) }}" class="btn btn-info"><i class="fa fa-pencil"></i> Editar</a>
                                     @endcan
                                     @can('peak-hour-delete')
-                                    <button class="btn btn-danger" onclick="return confirm('Are you sure?')"><i class="fa fa-trash"></i> Delete</button>
+                                    <button class="btn btn-danger" onclick="return confirm('Você tem certeza?')"><i class="fa fa-trash"></i> Excluir</button>
                                     @endcan
                                     @endif
                                 </form>

@@ -15,6 +15,7 @@ use App\AdminTransactions;
 use App\AdminWallet;
 use App\UserWallet;
 use App\ProviderWallet;
+use App\FleetWallet;
 use App\Helpers\Helper;
 
 
@@ -48,7 +49,9 @@ class TransactionsLog{
                 $Transaction->user_id = $request['user_id'];            
             if($request['provider_id'])
                 $Transaction->provider_id = $request['provider_id'];            
-            $Transaction->admin_id = 1;         
+            $Transaction->admin_id = 1;
+            if($request['fleet_id'])
+                $Transaction->fleet_id = $request['fleet_id'];            
             $Transaction->created_at = date('Y-m-d h:m:s');            
             $Transaction->save();
             
@@ -93,6 +96,11 @@ class TransactionsLog{
 
     }
 
+    protected function fleetSettlement($request){
+
+    }
+   
+
     protected function createAdminWallet($request){
         return ;
     }
@@ -102,6 +110,10 @@ class TransactionsLog{
     }
 
     protected function createProviderWallet($total){
+        return ;
+    }
+
+    protected function createFleetWallet($total){
         return ;
     }
 
@@ -122,7 +134,11 @@ class TransactionsLog{
 
             case 3:
                 $result = $this->providerSettlement($request);
-                break;           
+                break;
+
+            case 4:
+                $result = $this->fleetSettlement($request);
+                break;             
 
             default:                
                 break;

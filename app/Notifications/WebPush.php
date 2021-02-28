@@ -57,9 +57,9 @@ class WebPush extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction of the notification.')
+                    ->line('A introdução da notificação.')
                     ->action('Notification Action', url('/'))
-                    ->line('Thanks for using our app!');
+                    ->line('Obrigado por usar nosso aplicativo!');
     }
 
     /**

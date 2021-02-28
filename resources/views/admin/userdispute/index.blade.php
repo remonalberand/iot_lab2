@@ -1,26 +1,24 @@
 @extends('admin.layout.base')
 
-@section('title', 'Dispute Users')
+@section('title', 'Disputas Usuários ')
 
 @section('content')
 
+    <div class="content-area py-1">
         <div class="container-fluid">
             
-            <div class="card">
-               <div class="card-header card-header-primary">
+            <div class="box box-block bg-white">
                 @if(Setting::get('demo_mode', 0) == 1)
-                <div class="col-md-12" style="height:50px;color:red;">
-                    ** Demo Mode : @lang('admin.demomode')
-                </div>
-            @endif
-            <h5 class="card-title">@lang('admin.dispute.title1')</h5>
-            @can('lost-item-create')
-           <a href="{{ route('admin.userdisputecreate') }}" style="margin-left: 1em;" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> @lang('admin.dispute.add_dispute')</a>
-           @endcan
-              </div>
-              <div class="card-body">
-               <div class="table-responsive">
-                <table class="table">
+                    <div class="col-md-12" style="height:50px;color:red;">
+                        ** Demo Mode : @lang('admin.demomode')
+                    </div>
+                @endif
+                <h5 class="mb-1">@lang('admin.dispute.title1')</h5>
+                @can('lost-item-create')
+               <a href="{{ route('admin.userdisputecreate') }}" style="margin-left: 1em;" class="btn btn-primary pull-right"><i class="fa fa-plus"></i> @lang('admin.dispute.add_dispute')</a>
+               @endcan
+
+                <table class="table table-striped table-bordered dataTable" id="table-5">
                     <thead>
                         <tr>
                             <th>@lang('admin.id')</th>
@@ -38,7 +36,7 @@
                     @foreach($disputes as $index => $dispute)
                         <tr>
                             <td>{{ $index + 1 }}</td>
-                            <td>{{ $dispute->dispute_type == "provider" ? "Driver" : "User" }}</td>
+                            <td>{{ $dispute->dispute_type == "provider" ? "Motorista" : "Passageiro" }}</td>
                             <td>@if($dispute->dispute_type=='user') @if($dispute->user != null) {{ $dispute->user->first_name." ".$dispute->user->last_name }} @endif @else  @if($dispute->provider != null)  {{ $dispute->provider->first_name." ".$dispute->provider->last_name }} @endif @endif</td>
                             <td>{{ $dispute->request->booking_id }}</td>
                             <td>{{ $dispute->dispute_name }}</td>
